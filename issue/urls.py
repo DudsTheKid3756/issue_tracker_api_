@@ -1,7 +1,8 @@
 from django.urls import path
 
-from . import views
+from .views import IssueView
 
 urlpatterns = [
-    path('', views.index, name="index"),
+    path('', IssueView.as_view()),
+    path('<int:pk>', IssueView.as_view())
 ]

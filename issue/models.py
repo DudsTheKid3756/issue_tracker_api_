@@ -2,21 +2,21 @@ from django.db import models
 
 
 class Reminder(models.Model):
-    time = models.TimeField(null=False)
-    date = models.DateField(null=False)
-    alert = models.CharField(max_length=15, null=False)
+    time = models.TimeField()
+    date = models.DateField()
+    alert = models.CharField(max_length=15)
 
     def __str__(self):
         return f"rmndr{self.time}_{self.date}_{self.alert}"
 
 
 class Issue(models.Model):
-    reminder = models.ForeignKey(Reminder, on_delete=models.CASCADE)
-    title = models.CharField(max_length=28, null=False)
-    comment = models.TextField(max_length=255, null=False)
+    reminder = models.ForeignKey(Reminder, models.CASCADE, null=True)
+    title = models.CharField(max_length=28)
+    comment = models.TextField(max_length=255)
     color = models.CharField(max_length=7, default="#000000")
-    created_by = models.CharField(max_length=15, null=False)
-    created = models.DateTimeField(null=False)
+    created_by = models.CharField(max_length=15)
+    created = models.DateTimeField()
     has_reminder = models.BooleanField(default=False)
     is_completed = models.BooleanField(default=False)
 
