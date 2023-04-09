@@ -1,7 +1,7 @@
 import datetime
 
 from rest_framework import status
-from rest_framework.exceptions import NotFound
+from rest_framework.exceptions import NotFound, NotAcceptable
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
@@ -34,3 +34,33 @@ class IssueView(APIView):
             return Response({"status": "success", "data": issue_serializer.data}, status=status.HTTP_201_CREATED)
         else:
             return Response({"status": "error", "data": issue_serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
+
+    @staticmethod
+    def patch(request, pk=None):
+        issue = Issue.objects.get(pk=pk)
+
+        serializer = IssueSerializer(issue, data=request.data, partial=True)
+
+        if serializer.initial_data.get("has_reminder"):
+            if serializer.initial_data.get("reminder") is None:
+                raise NotAcceptable("Reminder field is required if 'has_reminder' field is True")
+
+        if serializer.is_valid():
+            serializer.save()
+            return Response({"status": "success", "data": serializer.data})
+        else:
+            return Response({"status": "error", "data": serializer.errors})
+
+    @staticmethod
+    def delete(request, pk):
+        issue: Issue
+        try:
+            issue = Issue.objects.get(pk=pk)
+        except Exception:
+            raise NotFound(f"Issue with id: {pk} does not exist")
+
+        issue.delete()
+        return Response({
+            "status": "success",
+            "message": f"Issue with id: {pk} deleted"
+        }, status=status.HTTP_204_NO_CONTENT)

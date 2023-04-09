@@ -85,10 +85,10 @@ DATABASES = {
     'default': {
         'ENGINE': 'djongo',
         'NAME': 'issue_tracker_db',
+        'ENFORCE_SCHEMA': False,
         'CLIENT': {
-            'host': 'mongodb+srv://curlyq3756:K3gMBGOlioVwJIy7'
-                    '@cluster0.d0kihlr.mongodb.net/issue_tracker_db'
-                    '?retryWrites=true&w=majority'
+            'host': 'mongodb+srv://curlyq3756:bEsqNrgwHZuzSRrQ'
+                    '@cluster0.tswm53l.mongodb.net/issue_tracker_db?retryWrites=true&w=majority'
         }
     }
 }

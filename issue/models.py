@@ -1,4 +1,4 @@
-from django.db import models
+from djongo import models
 
 
 class Reminder(models.Model):
@@ -11,7 +11,7 @@ class Reminder(models.Model):
 
 
 class Issue(models.Model):
-    reminder = models.ForeignKey(Reminder, models.CASCADE, null=True)
+    reminder = models.OneToOneField(Reminder, on_delete=models.CASCADE, null=True)
     title = models.CharField(max_length=28)
     comment = models.TextField(max_length=255)
     color = models.CharField(max_length=7, default="#000000")
